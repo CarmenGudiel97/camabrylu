@@ -1,32 +1,32 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Page from '../../Page';
 import Field from '../../../Forms/Fields/Field';
-import {Actions} from '../../../Forms/Buttons/Button';
-import {emailRegex , emptyRegex} from '../../../Forms/Validators/Validators';
+import { Actions } from '../../../Forms/Buttons/Button';
+import { emailRegex, emptyRegex } from '../../../Forms/Validators/Validators';
 
-import {paxios, setLocalStorage} from '../../../Utilities/Utilities';
-import {Redirect} from 'react-router-dom';
-export default class Login extends Component{
-
-  constructor(){
+import {paxios} from '../../../Utilities/Utilities';
+export default class Login extends Component {
+ 
+  constructor() {
     super();
     this.state = {
-      email:'',
-      emailError:null,
-      password:'',
-      passwordError:null,
-      redirecTo:false
+      userName: '',
+      userNameError:null,
+      email: '',
+      emailError: null,
+      password: '',
+      passwordError: null
     }
     this.onChangeHandler = this.onChangeHandler.bind(this);
     this.onClickLogin = this.onClickLogin.bind(this);
     this.onClickCreateAccount = this.onClickCreateAccount.bind(this);
     this.validate = this.validate.bind(this);
   }
-  validate(state){
+  validate(state) {
     let nameErrors = null;
     let tmpErrors = [];
-    const {email, password} = state;
-    if(email !== undefined){
+    const { email, password } = state;
+    if (email !== undefined) {
       if (!emailRegex.test(email)) {
         tmpErrors.push("El correo debe tener formato correcto");
       }
@@ -34,10 +34,10 @@ export default class Login extends Component{
         tmpErrors.push("Debe Ingresar Correo Adecuado");
       }
       if (tmpErrors.length) {
-        nameErrors = Object.assign({},nameErrors, {emailError:tmpErrors.join('. ')});
+        nameErrors = Object.assign({}, nameErrors, { emailError: tmpErrors.join('. ') });
       }
     }
-    if (password !== undefined){
+    if (password !== undefined) {
       tmpErrors = [];
       if ((emptyRegex.test(password))) {
         tmpErrors.push("Debe Ingresar Contraseña Adecuado");
@@ -46,58 +46,63 @@ export default class Login extends Component{
         nameErrors = Object.assign({}, nameErrors, { passwordError: tmpErrors.join('. ') });
       }
     }
-      return nameErrors;
+    return nameErrors;
   }
-  onChangeHandler(e){
-    const  {name, value} = e.currentTarget;
-    let errors = this.validate({[name]:value});
-    if (!errors){
-      errors = {[name+"Error"]:''};
+  onChangeHandler(e) {
+    const { name, value } = e.currentTarget;
+    // Aqui puedo validar datos y establecer elementos de error.
+    let errors = this.validate({ [name]: value });
+    if (!errors) {
+      errors = { [name + "Error"]: '' };
     }
     this.setState({
       ...this.state,
-      [name]:value,
+      [name]: value,
       ...errors
     });
   }
-  onClickLogin(e){
+  onClickCreateAccount(e) {
     e.preventDefault();
     e.stopPropagation();
+    //Validaciones
     const errors = this.validate(this.state);
-    if(errors){
-      this.setState({...this.state, ...errors});
+    if (errors) {
+      this.setState({ ...this.state, ...errors });
     } else {
-        alert(JSON.stringify(this.state));
-        const {email, password} = this.state;
-        paxios.post(
-          "/api/seguridad/login",
-          {
-            userEmail: email,
-            userPswd: password
-          }
-        )
-        .then((resp)=>{
-          console.log(resp.data);
-          this.props.login(resp.data);
-          this.setState({...this.state, redirecTo: true })
+      //Aplicar Axios
+      const { email, password , userName} = this.state;
+      paxios.post(
+        "/api/seguridad/users/new",
+        {
+          useremail: email,
+          userpswd: password,
+          usernames: userName
+        }
+      )
+        .then((resp) => {
+          console.log(resp);
         })
-        .catch((error)=>{
+        .catch((error) => {
           console.log(error);
         })
     }
   }
-  onClickCreateAccount(e){
+  onClickLogin(e) {
     e.preventDefault();
     e.stopPropagation();
-    alert("Click en Crear Cuenta");
+    alert("Click en Login");
   }
-  render(){
-    if (this.state.redirecTo){
-      const redirect = (this.props.location.state) ? this.props.location.state.from.pathname : '/';
-      return (<Redirect to={redirect} />);
-    }
+  render() {
     return (
-      <Page pageTitle="Iniciar" auth={this.props.auth}>
+      <Page pageTitle="Nueva Cuenta" auth={this.props.auth}>
+        <Field
+          name="userName"
+          caption="Nombre Completo"
+          value={this.state.userName}
+          type="text"
+          onChange={this.onChangeHandler}
+          error={this.state.userNameError}
+        />
         <Field
           name="email"
           caption="Correo"
@@ -115,8 +120,8 @@ export default class Login extends Component{
           error={this.state.passwordError}
         />
         <Actions>
-          <button onClick={this.onClickLogin}>Iniciar Sesión</button>
           <button onClick={this.onClickCreateAccount}>Crear Cuenta</button>
+          <button onClick={this.onClickLogin}>Iniciar Sesión</button>
         </Actions>
       </Page>
     );

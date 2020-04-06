@@ -1,10 +1,10 @@
 import React from 'react';
 import Page from '../../Page';
 
-export default ()=>{
-    return(
-        <Page pageTitle="Home Page">
-            <p> L"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." </p>
-        </Page>
-    )
+export default ({auth})=>{
+  return (
+    <Page pageTitle="Home Page" auth={auth}>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus, quia vel? Iure eaque ipsam, magni animi debitis sapiente consequuntur quos repudiandae. Consequatur perferendis accusantium voluptatum harum, aliquid dolor repellendus facere.</p>
+    </Page>
+  )
 }
