@@ -9,6 +9,8 @@ import Home from './componentes/Pages/Public/Home/Home';
 import Login from './componentes/Pages/Public/Login/Login'
 import Signin from './componentes/Pages/Public/SignIn/SignIn';
 
+import ServicioList from './componentes/Pages/Private/Servicios/ServicioList';
+
 
 class App extends Component {
   constructor(){
@@ -62,12 +64,11 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-        
           <Route render={(props) => { return (<Home {...props} auth={auth} />) }} path="/" exact />
           <Route render={(props)=>{return (<Login {...props} auth={auth} login={this.login} />)}} path="/login" exact/>
           <Route render={(props) => { return (<Signin {...props} auth={auth}/>) }} path="/signin" exact />
           <PrivateRoute component={Home} path="/privatehome" exact auth={auth} />
-        
+          <PrivateRoute component={ServicioList} path="/servicios" exact auth={auth} />
         </div>
       </Router>
     );

@@ -31,8 +31,8 @@ export default class Footer extends Component{
         <footer>
           <nav>
             <ul>
-              <li><NavLink to="/"><IoIosHome />Home</NavLink></li>
-              <li><NavLink to="/productos"><IoIosFolder /> Services</NavLink></li>
+              <li><NavLink to="/"><IoIosHome/>Home</NavLink></li>
+              <li><NavLink to="/servicios"><IoIosFolder/>Productos</NavLink></li>
               <li><NavLink to="/signin"><IoIosLogIn /> Orders</NavLink></li>
               <li><a onClick={this.logoutOnClick}><IoIosLogIn /> Logout</a></li>
             </ul>
