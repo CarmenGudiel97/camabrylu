@@ -7,7 +7,7 @@ return (<h1 oneClick={
         finalLogin(
             e,
             { 
-                email:"manueleaguilarr@gmail.com",
+                email:"brianuchiha@gmail.com",
                 id: "Manuel",
                 roles:["public","admin"]
                 })}
