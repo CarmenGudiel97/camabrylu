@@ -8,6 +8,9 @@ export default class Footer extends Component{
     super();
     this.state = {
       counter:0
+
+
+
     }
     this.counterUpdate = this.counterUpdate.bind(this);
     this.logoutOnClick = this.logoutOnClick.bind(this);
