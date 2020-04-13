@@ -11,13 +11,10 @@ import Signin from './componentes/Pages/Public/SignIn/SignIn';
 
 import ServicioList from './componentes/Pages/Private/Servicios/ServicioList';
 
-
-
-
-
 class App extends Component {
   constructor(){
     super();
+    
     this.state = {
       user: getLocalStorage('user')||{},
       jwt: getLocalStorage('jwt') || '',
